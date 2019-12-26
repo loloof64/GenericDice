@@ -25,8 +25,10 @@ class _DiceState extends State<Dice> {
   Random _rng = new Random();
 
   void _initSound() {
-    DefaultAssetBundle.of(context).load("assets/sounds/dice.wav").then((ByteData soundData) {
-        return sndPool.load(soundData);
+    DefaultAssetBundle.of(context)
+        .load("assets/sounds/dice.wav")
+        .then((ByteData soundData) {
+      return sndPool.load(soundData);
     }).then((soundId) {
       _soundId = soundId;
     }).catchError((error) {
@@ -51,15 +53,15 @@ class _DiceState extends State<Dice> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '$_value',
-              style: Theme.of(context).textTheme.display4,
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            '$_value',
+            style: Theme.of(context).textTheme.display4,
+          ),
+        ],
+      ),
     );
   }
 }

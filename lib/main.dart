@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:generic_dice/dice.dart';
-
+import 'package:generic_dice/dice_play.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,9 +27,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  Dice _dice = Dice();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +34,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: _dice,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { _dice.launch();},
-        tooltip: 'Launch dice',
-        child: Icon(Icons.add),
+        child: FlatButton(
+          child: Text("Access dice page"),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DicePlayPage()));
+          },
+        ),
       ),
     );
   }
