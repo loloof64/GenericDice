@@ -51,8 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _launchDice() {
     setState(() {
-      sndPool.play(_soundId).then((result) {
-         _value = _rng.nextInt(6) + 1;
+      sndPool.play(_soundId).then((result) {});
+      Future.delayed(Duration(milliseconds: 600)).then((result) {
+        _value = _rng.nextInt(6) + 1;
       });
     });
   }
