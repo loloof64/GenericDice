@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:generic_dice/dice.dart';
+
+import 'dice.dart';
 
 class DicePlayPage extends StatefulWidget {
   DicePlayPage({Key key}) : super(key: key);

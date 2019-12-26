@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'dart:math';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:soundpool/soundpool.dart';
 
 Soundpool sndPool = Soundpool(streamType: StreamType.music);
@@ -9,7 +9,7 @@ Soundpool sndPool = Soundpool(streamType: StreamType.music);
 class Dice extends StatefulWidget {
   Dice({Key key}) : super(key: key);
 
-  _DiceState state = _DiceState();
+  final _DiceState state = _DiceState();
 
   launch() {
     state._launch();
