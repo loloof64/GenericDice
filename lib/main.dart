@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:typed_data';
+import 'package:soundpool/soundpool.dart';
+
+Soundpool sndPool = Soundpool(streamType: StreamType.music);
 
 void main() => runApp(MyApp());
 
@@ -27,11 +31,29 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _value = 0;
+  int _soundId = -1;
   Random _rng = new Random();
+
+  void _initSound() {
+    DefaultAssetBundle.of(context).load("assets/sounds/dice.wav").then((ByteData soundData) {
+        return sndPool.load(soundData);
+    }).then((soundId) {
+      _soundId = soundId;
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _initSound();
+  }
 
   void _launchDice() {
     setState(() {
-      _value = _rng.nextInt(6) + 1;
+      sndPool.play(_soundId).then((result) {
+         _value = _rng.nextInt(6) + 1;
+      });
     });
   }
 
