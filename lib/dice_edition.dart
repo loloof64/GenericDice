@@ -53,9 +53,13 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
     setState(() {
       _values = _originals;
       _valuesControllers = _originals.map((singleValue) {
-      return TextEditingController(text: singleValue);
-    }).toList();
+        return TextEditingController(text: singleValue);
+      }).toList();
     });
+  }
+
+  void _cancel() {
+    Navigator.pop(context);
   }
 
   @override
@@ -89,17 +93,26 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
         children: <Widget>[
           Expanded(
             child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Text("Update"),
-                      color: Colors.orange,
-                      onPressed: _returnNewValuesToCaller,
-                    ),
-                    FlatButton(child: Text("Reset"), color: Colors.red, onPressed: _resetValues,)
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text("Update"),
+                    color: Colors.orange,
+                    onPressed: _returnNewValuesToCaller,
+                  ),
+                  FlatButton(
+                    child: Text("Reset"),
+                    color: Colors.purple,
+                    onPressed: _resetValues,
+                  ),
+                  FlatButton(
+                    child: Text("Cancel"),
+                    color: Colors.red,
+                    onPressed: _cancel,
+                  )
+                ],
+              ),
               margin: EdgeInsets.all(10.0),
             ),
             flex: 1,
