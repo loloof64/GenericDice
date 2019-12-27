@@ -37,9 +37,32 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  void _showErrorDialog(diceName) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Dice already present"),
+            content: Text("You already have dice " + diceName + "."),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Ok"),
+              ),
+            ],
+          );
+        });
+  }
+
   void _createDice(String diceName) {
+    var configuration = SingleDiceConfiguration();
+    if (dicesConfiguration.dices.containsKey(diceName)) {
+      _showErrorDialog(diceName);
+      return;
+    }
     setState(() {
-      var configuration = SingleDiceConfiguration();
       configuration.values = ["1", "2", "3", "4", "5", "6"];
       dicesConfiguration.dices[diceName] = configuration;
     });
@@ -47,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _selectDice(String diceName) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DicePlayPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DicePlayPage()));
   }
 
   void _addDice() {
@@ -81,16 +105,36 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> dicesComponents =
         dicesConfiguration.dices.entries.map((config) {
-          return Row(children: <Widget>[
-            Expanded(flex: 8, child: FlatButton(child: Text(config.key), onPressed: () {_selectDice(config.key);}),),
-            Expanded(flex: 1, child: FlatButton(child: Text("Ed"),),),
-            Expanded(flex: 1, child: FlatButton(child: Text("Del"),),)
-          ]);}).toList();
+      return Row(children: <Widget>[
+        Expanded(
+          flex: 8,
+          child: FlatButton(
+              child: Text(config.key),
+              onPressed: () {
+                _selectDice(config.key);
+              }),
+        ),
+        Expanded(
+          flex: 1,
+          child: FlatButton(
+            child: Text("Ed"),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: FlatButton(
+            child: Text("Del"),
+          ),
+        )
+      ]);
+    }).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(children: dicesComponents,),
+      body: ListView(
+        children: dicesComponents,
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: _addDice,
