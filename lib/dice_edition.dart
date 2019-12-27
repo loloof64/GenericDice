@@ -22,7 +22,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
     _diceName = diceName;
     _originals = List<String>.from(oldValues);
     _values = oldValues;
-    _valuesControllers = oldValues.map((singleValue) {
+    _valuesControllers = _originals.map((singleValue) {
       return TextEditingController(text: singleValue);
     }).toList();
   }
@@ -46,6 +46,15 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
       final controller = TextEditingController(text: "Sample");
       _valuesControllers.add(controller);
       _values.add("");
+    });
+  }
+
+  void _resetValues() {
+    setState(() {
+      _values = _originals;
+      _valuesControllers = _originals.map((singleValue) {
+      return TextEditingController(text: singleValue);
+    }).toList();
     });
   }
 
@@ -79,10 +88,19 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: FlatButton(
-              child: Text("Update"),
-              color: Colors.orange,
-              onPressed: _returnNewValuesToCaller,
+            child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    FlatButton(
+                      child: Text("Update"),
+                      color: Colors.orange,
+                      onPressed: _returnNewValuesToCaller,
+                    ),
+                    FlatButton(child: Text("Reset"), color: Colors.red, onPressed: _resetValues,)
+                  ],
+                ),
+              margin: EdgeInsets.all(10.0),
             ),
             flex: 1,
           ),
