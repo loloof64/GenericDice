@@ -13,7 +13,7 @@ class Dice extends StatefulWidget {
 }
 
 class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
-  var _value = "";
+  var _value = "Tap !";
   final _rng = new Random();
 
 
@@ -41,14 +41,13 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
       }
       setState(() {});
     });
-
-    print(values);
   }
 
   void _launch() async {
     await _animationController.forward();
+    final selectedIndex = _rng.nextInt(values.length);
     setState(() {
-      _value = values[_rng.nextInt(values.length)];
+      _value = values[selectedIndex];
     });
   }
 
