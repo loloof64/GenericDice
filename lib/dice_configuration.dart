@@ -1,7 +1,9 @@
+import "dart:collection";
+
 class SingleDiceConfiguration {
   List<String> values = [];
 }
 
 class UserDicesConfiguration {
-  Map<String, SingleDiceConfiguration> dices = {};
+  SplayTreeMap<String, SingleDiceConfiguration> dices = SplayTreeMap();
 }
