@@ -59,7 +59,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
   }
 
   void _cancel() {
-    Navigator.pop(context);
+    Navigator.pop(context, _originals);
   }
 
   @override
@@ -87,51 +87,57 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
       );
     }).toList();
 
-    return Scaffold(
-      appBar: AppBar(title: Text("Editing dice " + _diceName)),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text("Update"),
-                    color: Colors.orange,
-                    onPressed: _returnNewValuesToCaller,
-                  ),
-                  FlatButton(
-                    child: Text("Reset"),
-                    color: Colors.purple,
-                    onPressed: _resetValues,
-                  ),
-                  FlatButton(
-                    child: Text("Cancel"),
-                    color: Colors.red,
-                    onPressed: _cancel,
-                  )
-                ],
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(title: Text("Editing dice " + _diceName)),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    FlatButton(
+                      child: Text("Update"),
+                      color: Colors.orange,
+                      onPressed: _returnNewValuesToCaller,
+                    ),
+                    FlatButton(
+                      child: Text("Reset"),
+                      color: Colors.purple,
+                      onPressed: _resetValues,
+                    ),
+                    FlatButton(
+                      child: Text("Cancel"),
+                      color: Colors.red,
+                      onPressed: _cancel,
+                    )
+                  ],
+                ),
+                margin: EdgeInsets.all(10.0),
               ),
-              margin: EdgeInsets.all(10.0),
+              flex: 1,
             ),
-            flex: 1,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: generatedChildren,
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: generatedChildren,
+                ),
               ),
-            ),
-            flex: 9,
-          )
-        ],
+              flex: 9,
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: _addItem,
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: _addItem,
-      ),
+      onWillPop: () async {
+        Navigator.pop(context, _originals);
+        return true;
+      },
     );
   }
 }
