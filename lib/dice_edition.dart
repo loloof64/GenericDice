@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class DiceEditionPage extends StatefulWidget {
   final List<String> oldValues;
@@ -40,15 +41,26 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
     });
   }
 
+  void _addItem() {
+    setState(() {
+      final controller = TextEditingController(text: "Sample");
+      _valuesControllers.add(controller);
+      _values.add("");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final generatedChildren = _values.asMap().entries.map((item) {
       return Row(
         children: <Widget>[
           Expanded(
-            child: Container(child: TextField(
-              controller: _valuesControllers[item.key],
-            ), margin: EdgeInsets.all(10.0),),
+            child: Container(
+              child: TextField(
+                controller: _valuesControllers[item.key],
+              ),
+              margin: EdgeInsets.all(10.0),
+            ),
             flex: 8,
           ),
           Expanded(
@@ -66,17 +78,28 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
       appBar: AppBar(title: Text("Editing dice " + _diceName)),
       body: Column(
         children: <Widget>[
-          FlatButton(
-            child: Text("Update"),
-            color: Colors.orange,
-            onPressed: _returnNewValuesToCaller,
+          Expanded(
+            child: FlatButton(
+              child: Text("Update"),
+              color: Colors.orange,
+              onPressed: _returnNewValuesToCaller,
+            ),
+            flex: 1,
           ),
-          ListView(
-            children: generatedChildren,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: generatedChildren,
+              ),
+            ),
+            flex: 9,
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _addItem,
       ),
     );
   }
