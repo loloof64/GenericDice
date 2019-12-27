@@ -50,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pop(context);
                 },
                 child: Text("Ok"),
+                color: Colors.blue,
               ),
             ],
           );
@@ -89,16 +90,52 @@ class _MyHomePageState extends State<MyHomePage> {
                   _createDice(diceNameController.text);
                 },
                 child: Text("Ok"),
+                color: Colors.blue,
               ),
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
                 child: Text("Cancel"),
+                color: Colors.red,
               )
             ],
           );
         });
+  }
+
+  void _deleteDice(diceName) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirm delete dice ?"),
+            content: Text("Do you really want to delete dice "+diceName+" ?"),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  _doDeleteDice(diceName);
+                },
+                child: Text("Ok"),
+                color: Colors.blue,
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+                color: Colors.red,
+              )
+            ],
+          );
+        });
+  }
+
+  void _doDeleteDice(diceName) {
+    setState(() {
+      dicesConfiguration.dices.remove(diceName);
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -109,10 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
         Expanded(
           flex: 8,
           child: FlatButton(
-              child: Text(config.key),
-              onPressed: () {
-                _selectDice(config.key);
-              }),
+              child: Text(config.key, style: Theme.of(context).textTheme.subhead),
+              onPressed: () =>  _selectDice(config.key) ),
         ),
         Expanded(
           flex: 1,
@@ -124,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
           flex: 1,
           child: FlatButton(
             child: Text("Del"),
+            onPressed: () => _deleteDice(config.key),
           ),
         )
       ]);
