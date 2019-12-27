@@ -30,22 +30,22 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
   void _returnNewValuesToCaller() {
     if (_valuesControllers.length == 0) {
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Empty dice"),
-            content: Text("Your dice is empty !"),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Ok"),
-                color: Colors.blue,
-              ),
-            ],
-          );
-        });
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Empty dice"),
+              content: Text("Your dice is empty !"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Ok"),
+                  color: Colors.blue,
+                ),
+              ],
+            );
+          });
       return;
     }
     final updatedValues = _valuesControllers.map((singleCtrl) {
@@ -98,7 +98,12 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
           ),
           Expanded(
             child: FlatButton(
-              child: Text("Del"),
+              child: Transform.scale(
+                scale: 4.0,
+                child: Tab(
+                  icon: Image.asset('assets/images/delete.png'),
+                ),
+              ),
               onPressed: () => _deleteItem(item.key),
             ),
             flex: 1,
@@ -109,7 +114,10 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
 
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(title: Text("Editing dice " + _diceName), leading: Container(),),
+        appBar: AppBar(
+          title: Text("Editing dice " + _diceName),
+          leading: Container(),
+        ),
         body: Column(
           children: <Widget>[
             Expanded(
