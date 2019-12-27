@@ -4,17 +4,22 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 class Dice extends StatefulWidget {
-  Dice({Key key}) : super(key: key);
+  final List<String> values;
 
-  final _DiceState state = _DiceState();
+  Dice(this.values);
 
   @override
-  _DiceState createState() => state;
+  _DiceState createState() => _DiceState(values);
 }
 
 class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
-  var _value = 0;
+  var _value = "";
   final _rng = new Random();
+
+
+  final List<String> values;
+
+  _DiceState(this.values);
 
   // used snippet https://stackoverflow.com/a/51734013/662618
 
@@ -36,12 +41,14 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
       }
       setState(() {});
     });
+
+    print(values);
   }
 
   void _launch() async {
     await _animationController.forward();
     setState(() {
-      _value = _rng.nextInt(6) + 1;
+      _value = values[_rng.nextInt(values.length)];
     });
   }
 
