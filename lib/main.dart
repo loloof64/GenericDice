@@ -191,6 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _doDeleteDice(diceName) {
     setState(() {
       dicesConfiguration.dices.remove(diceName);
+      _saveConfigurationToFile();
     });
     Navigator.pop(context);
   }
@@ -224,6 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     config.key,
                                     dicesConfiguration.dices[config.key])));
                         dicesConfiguration.dices[config.key] = newValues;
+                        _saveConfigurationToFile();
                       }),
                 ),
                 Expanded(
@@ -246,12 +248,6 @@ class _MyHomePageState extends State<MyHomePage> {
       key: key,
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          FlatButton(
-            child: Icon(Icons.play_arrow),
-            onPressed: _loadConfigurationFromFile,
-          )
-        ],
       ),
       body: ListView(
         children: dicesComponents,
