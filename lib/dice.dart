@@ -16,7 +16,6 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
   var _value = "Tap !";
   final _rng = new Random();
 
-
   final List<String> values;
 
   _DiceState(this.values);

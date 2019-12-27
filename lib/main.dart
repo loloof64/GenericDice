@@ -156,9 +156,14 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => _selectDice(config.key)),
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: FlatButton(
-              child: Text("Ed"),
+              child: Transform.scale(
+                scale: 1.2,
+                child: Tab(
+                  icon: Image.asset('assets/images/edit.png'),
+                ),
+              ),
               onPressed: () async {
                 final newValues = await Navigator.push(
                     context,

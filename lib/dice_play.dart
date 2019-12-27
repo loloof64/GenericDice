@@ -25,7 +25,7 @@ class _DicePlayPageState extends State<DicePlayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Playing dice "+diceName),
+        title: Text("Playing dice " + diceName),
       ),
       body: Center(
         child: _dice,
