@@ -8,10 +8,6 @@ class Dice extends StatefulWidget {
 
   final _DiceState state = _DiceState();
 
-  launch() {
-    state._launch();
-  }
-
   @override
   _DiceState createState() => state;
 }
@@ -54,14 +50,17 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
     return Container(
       color: _animation.value,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: double.infinity, minHeight: double.infinity),
-        child: Center(
-          child: Text(
-            '$_value',
-            style: Theme.of(context).textTheme.display4,
-          ),
-        )
-      ),
+          constraints: const BoxConstraints(
+              minWidth: double.infinity, minHeight: double.infinity),
+          child: Center(
+            child: GestureDetector(
+              child: Text(
+                '$_value',
+                style: Theme.of(context).textTheme.display4,
+              ),
+              onTap: _launch,
+            ),
+          )),
     );
   }
 }

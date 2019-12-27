@@ -21,13 +21,6 @@ class _DicePlayPageState extends State<DicePlayPage> {
       body: Center(
         child: _dice,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _dice.launch();
-        },
-        tooltip: 'Launch dice',
-        child: Icon(Icons.add),
-      ),
     );
   }
 }
