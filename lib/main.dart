@@ -171,9 +171,14 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: FlatButton(
-            child: Text("Del"),
+            child: Transform.scale(
+              scale: 1.2,
+              child: Tab(
+                icon: Image.asset('assets/images/delete.png'),
+              ),
+            ),
             onPressed: () => _deleteDice(config.key),
           ),
         )
