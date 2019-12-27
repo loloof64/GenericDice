@@ -33,6 +33,13 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
     Navigator.pop(context, updatedValues);
   }
 
+  void _deleteItem(itemIndex) {
+    setState(() {
+      _values.removeAt(itemIndex);
+      _valuesControllers.removeAt(itemIndex);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final generatedChildren = _values.asMap().entries.map((item) {
@@ -42,14 +49,12 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
             child: Container(child: TextField(
               controller: _valuesControllers[item.key],
             ), margin: EdgeInsets.all(10.0),),
-            flex: 9,
+            flex: 8,
           ),
           Expanded(
             child: FlatButton(
-              child: Text("Clr"),
-              onPressed: () {
-                _valuesControllers[item.key].text = _originals[item.key];
-              },
+              child: Text("Del"),
+              onPressed: () => _deleteItem(item.key),
             ),
             flex: 1,
           ),
