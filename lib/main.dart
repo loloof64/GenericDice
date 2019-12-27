@@ -81,35 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> dicesComponents =
         dicesConfiguration.dices.entries.map((config) {
-      return FractionallySizedBox(
-        widthFactor: 0.30,
-        child: Column(
-        children: <Widget>[
-          FlatButton(
-            child: Text(config.key,style: Theme.of(context).textTheme.body1,),
-            onPressed: () {
-              _selectDice(config.key);
-            },
-          ),
-          FittedBox(
-            fit: BoxFit.contain,
-            child: Row(children: <Widget>[
-              FlatButton(
-                child: Text("ed"),
-              ),
-              FlatButton(
-                child: Text("del"),
-              )
-            ],),
-          ),
-        ],
-      ));
-    }).toList();
+          return Row(children: <Widget>[
+            Expanded(flex: 8, child: FlatButton(child: Text(config.key), onPressed: () {_selectDice(config.key);}),),
+            Expanded(flex: 1, child: FlatButton(child: Text("Ed"),),),
+            Expanded(flex: 1, child: FlatButton(child: Text("Del"),),)
+          ]);}).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Wrap(children: dicesComponents, spacing: 8.0, runSpacing: 4.0),
+      body: ListView(children: dicesComponents,),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: _addDice,
