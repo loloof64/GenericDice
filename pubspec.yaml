@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  soundpool: ^0.5.3
 
   cupertino_icons: ^0.1.2
 
@@ -19,6 +18,4 @@ dev_dependencies:
 
 
 flutter:
-  assets:
-    - assets/sounds/dice.wav
   uses-material-design: true

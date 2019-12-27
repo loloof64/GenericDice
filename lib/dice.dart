@@ -1,10 +1,7 @@
 import 'dart:math';
-import 'dart:typed_data';
 
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
-import 'package:soundpool/soundpool.dart';
-
-Soundpool sndPool = Soundpool(streamType: StreamType.music);
 
 class Dice extends StatefulWidget {
   Dice({Key key}) : super(key: key);
@@ -19,48 +16,51 @@ class Dice extends StatefulWidget {
   _DiceState createState() => state;
 }
 
-class _DiceState extends State<Dice> {
-  int _value = 0;
-  int _soundId = -1;
-  Random _rng = new Random();
+class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
+  var _value = 0;
+  final _rng = new Random();
 
-  void _initSound() {
-    DefaultAssetBundle.of(context)
-        .load("assets/sounds/dice.wav")
-        .then((ByteData soundData) {
-      return sndPool.load(soundData);
-    }).then((soundId) {
-      _soundId = soundId;
-    }).catchError((error) {
-      print(error);
+  // used snippet https://stackoverflow.com/a/51734013/662618
+
+  Animation<Color> _animation;
+  AnimationController _animationController;
+
+  @override
+  initState() {
+    super.initState();
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 280), vsync: this);
+    final CurvedAnimation curve =
+        CurvedAnimation(parent: _animationController, curve: Curves.linear);
+    _animation =
+        ColorTween(begin: Colors.white, end: Colors.red).animate(curve);
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.reverse();
+      }
+      setState(() {});
     });
   }
 
-  void initState() {
-    super.initState();
-    _initSound();
-  }
-
-  void _launch() {
+  void _launch() async {
+    await _animationController.forward();
     setState(() {
-      sndPool.play(_soundId).then((result) {});
-      Future.delayed(Duration(milliseconds: 600)).then((result) {
-        _value = _rng.nextInt(6) + 1;
-      });
+      _value = _rng.nextInt(6) + 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
+      color: _animation.value,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: double.infinity, minHeight: double.infinity),
+        child: Center(
+          child: Text(
             '$_value',
             style: Theme.of(context).textTheme.display4,
           ),
-        ],
+        )
       ),
     );
   }
