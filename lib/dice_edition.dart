@@ -89,7 +89,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
 
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(title: Text("Editing dice " + _diceName)),
+        appBar: AppBar(title: Text("Editing dice " + _diceName), leading: Container(),),
         body: Column(
           children: <Widget>[
             Expanded(
@@ -135,8 +135,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
         ),
       ),
       onWillPop: () async {
-        Navigator.pop(context, _originals);
-        return true;
+        return false;
       },
     );
   }
