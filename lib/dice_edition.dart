@@ -28,6 +28,26 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
   }
 
   void _returnNewValuesToCaller() {
+    if (_valuesControllers.length == 0) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Empty dice"),
+            content: Text("Your dice is empty !"),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Ok"),
+                color: Colors.blue,
+              ),
+            ],
+          );
+        });
+      return;
+    }
     final updatedValues = _valuesControllers.map((singleCtrl) {
       return singleCtrl.text;
     }).toList();
