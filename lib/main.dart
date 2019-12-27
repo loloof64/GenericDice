@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:generic_dice/dice_edition.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import 'dice_configuration.dart';
+import 'dice_edition.dart';
 import 'dice_play.dart';
 
 void main() => runApp(MyApp());
@@ -31,11 +36,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var dicesConfiguration = UserDicesConfiguration();
   var diceNameController = TextEditingController();
+  final key = new GlobalKey<ScaffoldState>();
 
   @override
   void dispose() {
     diceNameController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConfigurationFromFile();
   }
 
   void _showErrorDialog(diceName) {
@@ -58,21 +70,61 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _saveConfigurationToFile() {
+    final jsonConfig = jsonEncode(dicesConfiguration);
+    getApplicationDocumentsDirectory().then((homeDirectory) {
+      final fileContext = p.Context(style: p.Style.platform);
+      final configPath = fileContext.join(homeDirectory.path, 'config');
+      new Directory(configPath).create().then((Directory configDirectory) {
+        final filePath = p.join(configPath, 'dices.txt');
+        final configFile = File(filePath);
+        configFile.writeAsStringSync(jsonConfig);
+      });
+    }).catchError((error) {
+      print(error);
+      key.currentState?.showSnackBar(new SnackBar(
+        content: new Text("Failed to save configuration !"),
+      ));
+    });
+  }
+
+  void _loadConfigurationFromFile() {
+    getApplicationDocumentsDirectory().then((homeDirectory) {
+      final fileContext = p.Context(style: p.Style.platform);
+      final configFilePath =
+          fileContext.join(homeDirectory.path, 'config', 'dices.txt');
+      final configFile = File(configFilePath);
+      final jsonConfig = configFile.readAsStringSync();
+      final Map<String, dynamic> rawJson = jsonDecode(jsonConfig);
+      final dicesConfiguration = UserDicesConfiguration.fromJson(rawJson);
+      setState(() {
+        this.dicesConfiguration = dicesConfiguration;
+      });
+    }).catchError((error) {
+      print(error);
+      key.currentState.showSnackBar(new SnackBar(
+        content: new Text("Failed to load configuration !"),
+      ));
+    });
+  }
+
   void _createDice(String diceName) {
-    var configuration = SingleDiceConfiguration();
+    var configuration = <String>[];
     if (dicesConfiguration.dices.containsKey(diceName)) {
       _showErrorDialog(diceName);
       return;
     }
     setState(() {
-      configuration.values = ["1", "2", "3", "4", "5", "6"];
+      configuration = ["1", "2", "3", "4", "5", "6"];
       dicesConfiguration.dices[diceName] = configuration;
+
+      _saveConfigurationToFile();
     });
     Navigator.pop(context);
   }
 
   void _selectDice(String diceName) {
-    final values = dicesConfiguration.dices[diceName].values;
+    final values = dicesConfiguration.dices[diceName];
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -146,52 +198,60 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> dicesComponents =
-        dicesConfiguration.dices.entries.map((config) {
-      return Row(children: <Widget>[
-        Expanded(
-          flex: 8,
-          child: FlatButton(
-              child:
-                  Text(config.key, style: Theme.of(context).textTheme.subhead),
-              onPressed: () => _selectDice(config.key)),
-        ),
-        Expanded(
-          flex: 2,
-          child: FlatButton(
-              child: Transform.scale(
-                scale: 1.2,
-                child: Tab(
-                  icon: Image.asset('assets/images/edit.png'),
+        dicesConfiguration.dices?.entries?.map((config) {
+              return Row(children: <Widget>[
+                Expanded(
+                  flex: 8,
+                  child: FlatButton(
+                      child: Text(config.key,
+                          style: Theme.of(context).textTheme.subhead),
+                      onPressed: () => _selectDice(config.key)),
                 ),
-              ),
-              onPressed: () async {
-                final newValues = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DiceEditionPage(config.key,
-                            dicesConfiguration.dices[config.key].values)));
-                var newConfiguration = SingleDiceConfiguration();
-                newConfiguration.values = newValues;
-                dicesConfiguration.dices[config.key] = newConfiguration;
-              }),
-        ),
-        Expanded(
-          flex: 2,
-          child: FlatButton(
-            child: Transform.scale(
-              scale: 1.2,
-              child: Tab(
-                icon: Image.asset('assets/images/delete.png'),
-              ),
-            ),
-            onPressed: () => _deleteDice(config.key),
-          ),
-        )
-      ]);
-    }).toList();
+                Expanded(
+                  flex: 2,
+                  child: FlatButton(
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: Tab(
+                          icon: Image.asset('assets/images/edit.png'),
+                        ),
+                      ),
+                      onPressed: () async {
+                        final newValues = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DiceEditionPage(
+                                    config.key,
+                                    dicesConfiguration.dices[config.key])));
+                        dicesConfiguration.dices[config.key] = newValues;
+                      }),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: FlatButton(
+                    child: Transform.scale(
+                      scale: 1.2,
+                      child: Tab(
+                        icon: Image.asset('assets/images/delete.png'),
+                      ),
+                    ),
+                    onPressed: () => _deleteDice(config.key),
+                  ),
+                )
+              ]);
+            })?.toList() ??
+            <Widget>[];
+
     return Scaffold(
+      key: key,
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          FlatButton(
+            child: Icon(Icons.play_arrow),
+            onPressed: _loadConfigurationFromFile,
+          )
+        ],
       ),
       body: ListView(
         children: dicesComponents,
