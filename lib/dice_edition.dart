@@ -51,7 +51,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
 
   void _resetValues() {
     setState(() {
-      _values = _originals;
+      _values = List<String>.from(_originals);
       _valuesControllers = _originals.map((singleValue) {
         return TextEditingController(text: singleValue);
       }).toList();
