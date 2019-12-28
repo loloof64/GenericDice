@@ -12,15 +12,43 @@ import 'dice_play.dart';
 import 'generated/locale_base.dart';
 import 'localedelegate.dart';
 
+import 'package:devicelocale/devicelocale.dart';
+
 import 'utils.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  getAppTitleAync().then((title) {
+    runApp(MyApp(title));
+  }).catchError((err) {
+    print(err);
+    runApp(MyApp('Generic dice'));
+  });
+}
+
+Future<String> getAppTitleAync() async {
+  try {
+    final currentLocaleStr = await Devicelocale.currentLocale;
+    final currentLocale = Locale.fromSubtags(languageCode: currentLocaleStr);
+    final localeDelegate = LocDelegate();
+    final localeBase = await localeDelegate.load(currentLocale);
+    return localeBase.main.appTitle;
+  }
+  catch (err) {
+    print(err);
+    return 'Generic Dice';
+  }
+}
 
 class MyApp extends StatelessWidget {
+  final String title;
+
+  MyApp(this.title);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Generic Dice',
+        title: title,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
