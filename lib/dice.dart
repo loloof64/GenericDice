@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'generated/locale_base.dart';
 
+import 'package:animator/animator.dart';
+
 class Dice extends StatefulWidget {
   final List<String> values;
 
@@ -28,29 +30,32 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
 
   _DiceState(this.values);
 
-  // used snippet https://stackoverflow.com/a/51734013/662618
-
-  Animation<Color> _animation;
-  AnimationController _animationController;
-
-  @override
-  initState() {
-    super.initState();
-    _animationController = AnimationController(
-        duration: const Duration(milliseconds: 280), vsync: this);
-    final CurvedAnimation curve =
-        CurvedAnimation(parent: _animationController, curve: Curves.linear);
-    _animation =
-        ColorTween(begin: Colors.white, end: Colors.red).animate(curve);
-    _animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _animationController.reverse();
-      }
-    });
+  Widget _buildAnimator(context, value) {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
+    return Animator<double>(
+      resetAnimationOnRebuild: true,
+      triggerOnInit: true,
+      tween: Tween<double>(begin: 0, end: 1),
+      cycles: 2,
+      duration: Duration(milliseconds: 200),
+      builder: (anim) => Container(
+      color: Colors.red.withOpacity(anim.value),
+      child: ConstrainedBox(
+          constraints: const BoxConstraints(
+              minWidth: double.infinity, minHeight: double.infinity),
+          child: Center(
+            child: GestureDetector(
+              child: Text(
+                '${_value ?? loc.main.tap}',
+                style: TextStyle(fontSize: 40.0),
+              ),
+            ),
+          )),
+    )
+    );
   }
 
   void _launch() async {
-    await _animationController.forward();
     final selectedIndex = _rng.nextInt(values.length);
     setState(() {
       _value = values[selectedIndex];
@@ -59,21 +64,6 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
-    final valueStr = _value ?? loc.main.tap;
-    return Container(
-      color: _animation.value,
-      child: ConstrainedBox(
-          constraints: const BoxConstraints(
-              minWidth: double.infinity, minHeight: double.infinity),
-          child: Center(
-            child: GestureDetector(
-              child: Text(
-                '$valueStr',
-                style: TextStyle(fontSize: 40.0),
-              ),
-            ),
-          )),
-    );
+    return _buildAnimator(context, _value);
   }
 }

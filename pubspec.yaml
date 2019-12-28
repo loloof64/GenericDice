@@ -15,6 +15,7 @@ dependencies:
   path_provider: ^1.5.1
   path: ^1.6.4
   devicelocale: ^0.2.1
+  animator: ^1.0.0+3
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
