@@ -21,6 +21,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
 
 
 flutter:
@@ -28,5 +29,11 @@ flutter:
   assets:
   - assets/images/delete.png
   - assets/images/edit.png
+  - assets/images/dice.png
   - locales/EN_US.json
   - locales/FR_FR.json
+
+flutter_icons:
+  android: true 
+  ios: true
+  image_path: "assets/images/dice.png"
