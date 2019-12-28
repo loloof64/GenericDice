@@ -1,0 +1,25 @@
+{
+  "editDice": {
+    "emptyDiceTitle": "Empty dice error modal title",
+    "emptyDiceMessage": "Empty dice error dialog message",
+    "sampleValue": "Sample dice value",
+    "pageTitle": "Page title",
+    "updateButton": "Update dice button",
+    "resetButton": "Reset button",
+    "cancelButton": "Cancel button"
+  },
+  "home": {
+    "diceAlreadyPresentTitle": "Title of modal 'Dice already there'",
+    "diceAlreadyPresentMsg": "Message of 'Dice already there' modal.",
+    "chooseDiceName": "New dice dialog title",
+    "confirmDeleteDiceTitle": "Confirm delete dice modal title",
+    "confirmDeleteDiceMessage": "Confirm delete dice modal message",
+    "loadingConfigurationFailure": "Failed to load configuration message",
+    "savingConfigurationFailure": "Saving configuration failure message"
+  },
+  "main": {
+    "appTitle": "Application title",
+    "ok": "Ok button",
+    "cancel": "Cancel button"
+  }
+}

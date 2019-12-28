@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'generated/locale_base.dart';
+import 'utils.dart';
+
 class DiceEditionPage extends StatefulWidget {
   final List<String> oldValues;
   final String diceName;
@@ -28,19 +31,20 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
   }
 
   void _returnNewValuesToCaller() {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     if (_valuesControllers.length == 0) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Empty dice"),
-              content: Text("Your dice is empty !"),
+              title: Text(loc.editDice.emptyDiceTitle),
+              content: Text(loc.editDice.emptyDiceMessage),
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Ok"),
+                  child: Text(loc.main.ok),
                   color: Colors.blue,
                 ),
               ],
@@ -62,8 +66,9 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
   }
 
   void _addItem() {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     setState(() {
-      final controller = TextEditingController(text: "Sample");
+      final controller = TextEditingController(text: loc.editDice.sampleValue);
       _valuesControllers.add(controller);
       _values.add("");
     });
@@ -112,10 +117,13 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
       );
     }).toList();
 
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
+
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Editing dice " + _diceName),
+          title: Text(replaceVariables(
+              loc.editDice.pageTitle, {"diceName": _diceName})),
           leading: Container(),
         ),
         body: Column(
@@ -126,17 +134,17 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     FlatButton(
-                      child: Text("Update"),
+                      child: Text(loc.editDice.updateButton),
                       color: Colors.orange,
                       onPressed: _returnNewValuesToCaller,
                     ),
                     FlatButton(
-                      child: Text("Reset"),
+                      child: Text(loc.editDice.resetButton),
                       color: Colors.purple,
                       onPressed: _resetValues,
                     ),
                     FlatButton(
-                      child: Text("Cancel"),
+                      child: Text(loc.editDice.cancelButton),
                       color: Colors.red,
                       onPressed: _cancel,
                     )

@@ -1,0 +1,25 @@
+{
+  "editDice": {
+    "emptyDiceTitle": "Dé sans valeur",
+    "emptyDiceMessage": "Votre dé n'a aucune valeur !",
+    "sampleValue": "Example",
+    "pageTitle": "Edition du dé [diceName]",
+    "updateButton": "Mettre à jour",
+    "resetButton": "Restaurer",
+    "cancelButton": "Annuler"
+  },
+  "home": {
+    "diceAlreadyPresentTitle": "Dé déjà présent",
+    "diceAlreadyPresentMsg": "Vous avez déjà le dé [diceName] !",
+    "chooseDiceName": "Choisissez le nom du dé",
+    "confirmDeleteDiceTitle": "Confirmer suppression du dé ?",
+    "confirmDeleteDiceMessage": "Voulez-vous vraiment supprimer le dé [diceName] ?",
+    "loadingConfigurationFailure": "Echec du chargement de la configuration !",
+    "savingConfigurationFailure": "Echec de sauvegarde de la configuration !"
+  },
+  "main": {
+    "appTitle": "Dé générique",
+    "ok": "D'accord",
+    "cancel": "Annuler"
+  }
+}

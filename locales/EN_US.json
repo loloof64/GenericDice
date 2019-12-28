@@ -1,0 +1,25 @@
+{
+  "editDice": {
+    "emptyDiceTitle": "Empty dice",
+    "emptyDiceMessage": "Your dice is empty !",
+    "sampleValue": "Sample",
+    "pageTitle": "Editing dice [diceName]",
+    "updateButton": "Update",
+    "resetButton": "Reset",
+    "cancelButton": "Cancel"
+  },
+  "home": {
+    "diceAlreadyPresentTitle": "Dice already there",
+    "diceAlreadyPresentMsg": "You already have dice [diceName] !",
+    "chooseDiceName": "Choose dice name",
+    "confirmDeleteDiceTitle": "Confirm delete dice ?",
+    "confirmDeleteDiceMessage": "Do you really want to delete dice [diceName] ?",
+    "loadingConfigurationFailure": "Failed to load configuration !",
+    "savingConfigurationFailure": "Failed to save configuration !"
+  },
+  "main": {
+    "appTitle": "Generic dice",
+    "ok": "Ok",
+    "cancel": "Cancel"
+  }
+}

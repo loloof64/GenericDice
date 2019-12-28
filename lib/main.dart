@@ -2,12 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'dice_configuration.dart';
 import 'dice_edition.dart';
 import 'dice_play.dart';
+import 'generated/locale_base.dart';
+import 'localedelegate.dart';
+
+import 'utils.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,19 +20,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Generic dice',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Generic dice'),
-    );
+        title: 'Generic Dice',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        localizationsDelegates: [
+          const LocDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('fr'),
+        ],
+        home: MyHomePage());
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage();
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -47,22 +59,24 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _loadConfigurationFromFile();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadConfigurationFromFile());
   }
 
   void _showErrorDialog(diceName) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
+          final loc = Localizations.of<LocaleBase>(context, LocaleBase);
           return AlertDialog(
-            title: Text("Dice already present"),
-            content: Text("You already have dice " + diceName + "."),
+            title: Text(loc.home.diceAlreadyPresentTitle),
+            content: Text(replaceVariables(
+                loc.home.diceAlreadyPresentMsg, {"diceName": diceName})),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Ok"),
+                child: Text(loc.main.ok),
                 color: Colors.blue,
               ),
             ],
@@ -71,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveConfigurationToFile() {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     final jsonConfig = jsonEncode(dicesConfiguration);
     getApplicationDocumentsDirectory().then((homeDirectory) {
       final fileContext = p.Context(style: p.Style.platform);
@@ -83,12 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).catchError((error) {
       print(error);
       key.currentState?.showSnackBar(new SnackBar(
-        content: new Text("Failed to save configuration !"),
+        content: new Text(loc.home.savingConfigurationFailure),
       ));
     });
   }
 
   void _loadConfigurationFromFile() {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     getApplicationDocumentsDirectory().then((homeDirectory) {
       final fileContext = p.Context(style: p.Style.platform);
       final configFilePath =
@@ -103,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }).catchError((error) {
       print(error);
       key.currentState.showSnackBar(new SnackBar(
-        content: new Text("Failed to load configuration !"),
+        content: new Text(loc.home.loadingConfigurationFailure),
       ));
     });
   }
@@ -132,11 +148,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addDice() {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Choose dice name"),
+            title: Text(loc.home.chooseDiceName),
             content: TextField(
               controller: diceNameController,
             ),
@@ -145,14 +162,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   _createDice(diceNameController.text);
                 },
-                child: Text("Ok"),
+                child: Text(loc.main.ok),
                 color: Colors.blue,
               ),
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Cancel"),
+                child: Text(loc.main.cancel),
                 color: Colors.red,
               )
             ],
@@ -161,26 +178,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _deleteDice(diceName) {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Confirm delete dice ?"),
-            content:
-                Text("Do you really want to delete dice " + diceName + " ?"),
+            title: Text(loc.home.confirmDeleteDiceTitle),
+            content: Text(replaceVariables(
+                loc.home.confirmDeleteDiceMessage, {"diceName": diceName})),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
                   _doDeleteDice(diceName);
                 },
-                child: Text("Ok"),
+                child: Text(loc.main.ok),
                 color: Colors.blue,
               ),
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Cancel"),
+                child: Text(loc.main.cancel),
                 color: Colors.red,
               )
             ],
@@ -198,6 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     List<Widget> dicesComponents =
         dicesConfiguration.dices?.entries?.map((config) {
               return Row(children: <Widget>[
@@ -247,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(loc.main.appTitle),
       ),
       body: ListView(
         children: dicesComponents,
