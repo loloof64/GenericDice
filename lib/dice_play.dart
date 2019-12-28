@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'dice.dart';
+import 'generated/locale_base.dart';
+import 'utils.dart';
 
 class DicePlayPage extends StatefulWidget {
   final String diceName;
@@ -23,12 +25,20 @@ class _DicePlayPageState extends State<DicePlayPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Playing dice " + diceName),
+        title: Text(replaceVariables(loc.playDice.playingDice, {"diceName": diceName})),
       ),
-      body: Center(
-        child: _dice,
+      body: SizedBox(
+        child: FlatButton(
+          child: Center(
+            child: _dice,
+          ),
+          onPressed: () => _dice.launch(),
+        ),
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }

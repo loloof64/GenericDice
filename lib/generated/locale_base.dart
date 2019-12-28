@@ -23,11 +23,14 @@ class LocaleBase {
   Localehome get home => _home;
   Localemain _main;
   Localemain get main => _main;
+  LocaleplayDice _playDice;
+  LocaleplayDice get playDice => _playDice;
 
   void initAll() {
     _editDice = LocaleeditDice(Map<String, String>.from(_data['editDice']));
     _home = Localehome(Map<String, String>.from(_data['home']));
     _main = Localemain(Map<String, String>.from(_data['main']));
+    _playDice = LocaleplayDice(Map<String, String>.from(_data['playDice']));
   }
 }
 
@@ -64,4 +67,11 @@ class Localemain {
   String get appTitle => _data["appTitle"];
   String get ok => _data["ok"];
   String get cancel => _data["cancel"];
+  String get tap => _data["tap"];
+}
+class LocaleplayDice {
+  final Map<String, String> _data;
+  LocaleplayDice(this._data);
+
+  String get playingDice => _data["playingDice"];
 }

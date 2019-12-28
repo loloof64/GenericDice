@@ -22,6 +22,10 @@
   "main": {
     "appTitle": "Generic dice",
     "ok": "Ok",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "tap": "Tap !"
+  },
+  "playDice": {
+    "playingDice": "Playing dice  [diceName]"
   }
 }

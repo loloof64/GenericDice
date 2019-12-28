@@ -22,6 +22,10 @@
   "main": {
     "appTitle": "Application title",
     "ok": "Ok button",
-    "cancel": "Cancel button"
+    "cancel": "Cancel button",
+    "tap": "Tap message"
+  },
+  "playDice": {
+    "playingDice": "Playing dice message"
   }
 }

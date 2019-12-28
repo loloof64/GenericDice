@@ -22,6 +22,10 @@
   "main": {
     "appTitle": "Dé générique",
     "ok": "D'accord",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "tap": "Toucher !"
+  },
+  "playDice": {
+    "playingDice": "Jouant le dé [diceName]"
   }
 }
