@@ -33,8 +33,7 @@ Future<String> getAppTitleAync() async {
     final localeDelegate = LocDelegate();
     final localeBase = await localeDelegate.load(currentLocale);
     return localeBase.main.appTitle;
-  }
-  catch (err) {
+  } catch (err) {
     print(err);
     return 'Generic Dice';
   }
@@ -87,10 +86,32 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadConfigurationFromFile());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _loadConfigurationFromFile());
   }
 
-  void _showErrorDialog(diceName) {
+  void _showNoDiceNameErrorDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final loc = Localizations.of<LocaleBase>(context, LocaleBase);
+          return AlertDialog(
+            title: Text(loc.home.noDiceNameTitle),
+            content: Text(loc.home.noDiceNameMessage),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(loc.main.ok),
+                color: Colors.blue,
+              ),
+            ],
+          );
+        });
+  }
+
+  void _showDiceAlreadyThereErrorDialog(diceName) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -154,8 +175,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _createDice(String diceName) {
     var configuration = <String>[];
+    if (diceName.trim().length == 0) {
+      _showNoDiceNameErrorDialog();
+      return;
+    }
     if (dicesConfiguration.dices.containsKey(diceName)) {
-      _showErrorDialog(diceName);
+      _showDiceAlreadyThereErrorDialog(diceName);
       return;
     }
     setState(() {

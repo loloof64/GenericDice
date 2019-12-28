@@ -54,6 +54,8 @@ class Localehome {
   String get confirmDeleteDiceMessage => _data["confirmDeleteDiceMessage"];
   String get loadingConfigurationFailure => _data["loadingConfigurationFailure"];
   String get savingConfigurationFailure => _data["savingConfigurationFailure"];
+  String get noDiceNameTitle => _data["noDiceNameTitle"];
+  String get noDiceNameMessage => _data["noDiceNameMessage"];
 }
 class Localemain {
   final Map<String, String> _data;

@@ -15,7 +15,9 @@
     "confirmDeleteDiceTitle": "Confirm delete dice modal title",
     "confirmDeleteDiceMessage": "Confirm delete dice modal message",
     "loadingConfigurationFailure": "Failed to load configuration message",
-    "savingConfigurationFailure": "Saving configuration failure message"
+    "savingConfigurationFailure": "Saving configuration failure message",
+    "noDiceNameTitle": "No dice name given error dialog title",
+    "noDiceNameMessage": "No dice name given error dialog message"
   },
   "main": {
     "appTitle": "Application title",

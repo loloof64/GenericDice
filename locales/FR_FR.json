@@ -15,7 +15,9 @@
     "confirmDeleteDiceTitle": "Confirmer suppression du dé ?",
     "confirmDeleteDiceMessage": "Voulez-vous vraiment supprimer le dé [diceName] ?",
     "loadingConfigurationFailure": "Echec du chargement de la configuration !",
-    "savingConfigurationFailure": "Echec de sauvegarde de la configuration !"
+    "savingConfigurationFailure": "Echec de sauvegarde de la configuration !",
+    "noDiceNameTitle": "Dé sans nom",
+    "noDiceNameMessage": "Vous devez nommer le dé !"
   },
   "main": {
     "appTitle": "Dé générique",
