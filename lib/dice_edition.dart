@@ -104,7 +104,7 @@ class _DiceEditionPageState extends State<DiceEditionPage> {
           Expanded(
             child: FlatButton(
               child: Transform.scale(
-                scale: 4.0,
+                scale: 1.2,
                 child: Tab(
                   icon: Image.asset('assets/images/delete.png'),
                 ),
