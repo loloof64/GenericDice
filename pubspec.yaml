@@ -1,7 +1,7 @@
 name: generic_dice
 description: A generic dice
 
-version: 1.0.0+1
+version: 1.0.0+4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
