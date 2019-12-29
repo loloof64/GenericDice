@@ -9,4 +9,4 @@ A generic dice for your smartphone.
 Some icons have been downloaded from Flaticon website.
 
 * delete.png was created by Kiranshastry
-* edit.png, dice.png were created by FreePik
+* edit.png were created by FreePik

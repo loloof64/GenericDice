@@ -29,11 +29,11 @@ flutter:
   assets:
   - assets/images/delete.png
   - assets/images/edit.png
-  - assets/images/dice.png
+  - assets/images/logo_des.png
   - locales/EN_US.json
   - locales/FR_FR.json
 
 flutter_icons:
   android: true 
   ios: true
-  image_path: "assets/images/dice.png"
+  image_path: "assets/images/logo_des.png"
